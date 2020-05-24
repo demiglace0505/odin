@@ -10,21 +10,19 @@ const computerPlay = () => {
     };
 };
 
-const playRound = (round) => {
-    const player = window.prompt('Rock, Paper or Scissors?').toLowerCase();
+const playRound = (player) => {
     const computer = computerPlay().toLowerCase();
+    console.log(player, computer)
     
-    console.log(`Round ${round}:`, player, computer);
-
     // win
     if ( 
         player === 'rock' && computer === 'scissors' ||
         player === 'paper' && computer === 'rock' ||
         player === 'scissors' && computer === 'paper'
     ) {
-        
         playerScore++;
-        return `You Win! ${player} beats ${computer}, ${playerScore} - ${compScore}`
+        p.innerText = `Win! ${player} beats ${computer}, Score: ${playerScore} - ${compScore}` ;
+        return;
         
     };
 
@@ -36,7 +34,8 @@ const playRound = (round) => {
     ) {
         
         compScore++;
-        return `You Lose! ${player} loses to ${computer}, ${playerScore} - ${compScore}`
+        p.innerText = `Lose! ${player} loses to ${computer}, Score: ${playerScore} - ${compScore}` ;
+        return
     };
 
     // draw
@@ -45,19 +44,28 @@ const playRound = (round) => {
         player === 'paper' && computer === 'paper' ||
         player === 'scissors' && computer === 'scissors'
     ) {
-        return `Draw! ${playerScore} - ${compScore}`
+        p.innerText = `Draw! Score: ${playerScore} - ${compScore}` ;
+        return
     };
 
-    return `invalid input!`
 }
 
-const game = () => {
+// const game = () => {
 
-    for (let round = 1; round < 6 ; round++) {
-        console.log(playRound(round));
-    };
-};
+//     for (let round = 1; round < 6 ; round++) {
+//         console.log(playRound(round));
+//     };
+// };
 
 
-// GAME START
-game();
+const div = document.querySelector('.container');
+const p = document.querySelector('#status')
+
+const rockButton = document.querySelector('#rockButton');
+const paperButton = document.querySelector('#paperButton');
+const scissorsButton = document.querySelector('#scissorsButton');
+
+
+rockButton.addEventListener('click', () => playRound('rock'));
+paperButton.addEventListener('click', () => playRound('paper'));
+scissorsButton.addEventListener('click', () => playRound('scissors'));
