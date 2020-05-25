@@ -1,5 +1,6 @@
 let playerScore = 0;
 let compScore = 0;
+let round = 0;
 // let round = 1;
 
 const computerPlay = () => {
@@ -10,45 +11,70 @@ const computerPlay = () => {
     };
 };
 
-const playRound = (player) => {
-    const computer = computerPlay().toLowerCase();
-    console.log(player, computer)
-    
+const roundResults = (player, computer) => {
     // win
-    if ( 
+    if (
         player === 'rock' && computer === 'scissors' ||
         player === 'paper' && computer === 'rock' ||
         player === 'scissors' && computer === 'paper'
     ) {
         playerScore++;
-        p.innerText = `Win! ${player} beats ${computer}, Score: ${playerScore} - ${compScore}` ;
+        round++;
+        mainTitle.innerText = `Round ${round}: Win! ${player} beats ${computer}, Score: ${playerScore} - ${compScore}`;
         return;
-        
     };
 
     // lose
-    if ( 
+    if (
         player === 'rock' && computer === 'paper' ||
         player === 'paper' && computer === 'scissors' ||
         player === 'scissors' && computer === 'rock'
     ) {
-        
+
         compScore++;
-        p.innerText = `Lose! ${player} loses to ${computer}, Score: ${playerScore} - ${compScore}` ;
+        round++;
+        mainTitle.innerText = `Round ${round}: Lose! ${player} loses to ${computer}, Score: ${playerScore} - ${compScore}`;
         return
     };
 
     // draw
-    if ( 
+    if (
         player === 'rock' && computer === 'rock' ||
         player === 'paper' && computer === 'paper' ||
         player === 'scissors' && computer === 'scissors'
     ) {
-        p.innerText = `Draw! Score: ${playerScore} - ${compScore}` ;
+        round++;
+        mainTitle.innerText = `Round ${round}: Draw! Score: ${playerScore} - ${compScore}`;
         return
     };
-
 }
+
+const checkScores = () => {
+    if (playerScore >= 5) {
+        mainTitle.innerText = `You won! ${playerScore} - ${compScore}. The game took ${round} rounds.`
+        mainHero.classList.add('is-primary');
+        mainHero.classList.remove('is-dark');
+        rockButton.disabled = true;
+        paperButton.disabled = true;
+        scissorsButton.disabled = true;
+    };
+    if (compScore >= 5) {
+        mainTitle.innerText = `You lose! ${playerScore} - ${compScore}. The game took ${round} rounds.`
+        mainHero.classList.add('is-danger');
+        mainHero.classList.remove('is-dark');
+        rockButton.disabled = true;
+        paperButton.disabled = true;
+        scissorsButton.disabled = true;
+    };
+};
+
+const playRound = (player) => {
+    const computer = computerPlay().toLowerCase();
+    console.log(player, computer)
+
+    roundResults(player, computer);
+    checkScores();
+};
 
 // const game = () => {
 
@@ -57,9 +83,9 @@ const playRound = (player) => {
 //     };
 // };
 
-
+const mainHero = document.querySelector('#mainHero');
+const mainTitle = document.querySelector('#mainTitle');
 const div = document.querySelector('.container');
-const p = document.querySelector('#status')
 
 const rockButton = document.querySelector('#rockButton');
 const paperButton = document.querySelector('#paperButton');
